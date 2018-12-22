@@ -8,7 +8,7 @@ from resources.components.inventory import Inventory
 from resources.components.item import Item
 from entity import Entity
 
-from resources.components.item_functions import heal
+from resources.components.item_functions import cast_lighting, heal
 
 from map_objects.rectangle import Rect
 from map_objects.tile import Tile
@@ -115,8 +115,8 @@ class GameMap:
                     fighter_component = Fighter(hp=10, defense=0, power=3)
                     ai_component = BasicMonster()
 
-                    monster = Entity(x, y, 'o', libtcod.desaturated_green, 'Orc', blocks=True,
-                                     render_order=RenderOrder.ACTOR, fighter=fighter_component, ai=ai_component)
+                    monster = Entity(x, y, 'o', libtcod.desaturated_green, 'Orc', blocks=True,fighter=fighter_component,
+                                     render_order=RenderOrder.ACTOR, ai=ai_component)
                 else:
                     fighter_component = Fighter(hp=16, defense=1, power=4)
                     ai_component = BasicMonster()
@@ -130,12 +130,19 @@ class GameMap:
             x = randint(room.x1 + 1, room.x2 - 1)
             y = randint(room.y1 + 1, room.y2 - 1)
 
-        if not any([entity for entity in entities if entity.x == x and entity.y == y]):
-            item_component = Item(use_function=heal, amount=4)
-            item = Entity(x, y, '!', libtcod.violet, 'Healing Potion', render_order=RenderOrder.ITEM,
-                          item=item_component)
+            if not any([entity for entity in entities if entity.x == x and entity.y == y]):
+                item_chance = randint(0, 100)
 
-            entities.append(item)
+                if item_chance < 70:
+                    item_component = Item(use_function=heal, amount=4)
+                    item = Entity(x, y, '!', libtcod.violet, 'Healing Potion', render_order=RenderOrder.ITEM,
+                                        item=item_component)
+                else:
+                    item_component = Item(use_function=cast_lighting, damage=20, maximum_range=5)
+                    item = Entity(x, y, '#', libtcod.yellow, 'Lighting scroll', render_order=RenderOrder.ITEM,
+                                        item=item_component)
+
+                    entities.append(item)
 
     def is_blocked(self, x, y):
         if self.tiles[x][y].blocked:
