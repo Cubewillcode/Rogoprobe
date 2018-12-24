@@ -1,7 +1,7 @@
 import tcod as libtcod
 
-from resources.components.fighter import Fighter
-from resources.components.inventory import Inventory
+from components.fighter import Fighter
+from components.inventory import Inventory
 from death_functions import kill_monster, kill_player
 from entity import Entity, get_blocking_entities_at_location
 from fov_functions import initialize_fov, recompute_fov
@@ -169,7 +169,7 @@ def main():
                 target_x, target_y = left_click
 
                 item_use_results = player.inventory.use(targeting_item, entities=entities, fov_map=fov_map,
-                                                        target_x=target_x, target_y=targety)
+                                                        target_x=target_x, target_y=target_y)
                 player_turn_results.extend(item_use_results)
             elif right_click:
                 player_turn_results.append({'targeting_cancelled': True})
