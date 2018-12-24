@@ -49,7 +49,7 @@ def main():
     }
     #
 
-    fighter_component = Fighter(hp=30, defense=2, power=5)
+    fighter_component = Fighter(hp=45, defense=2, power=5)
     inventory_component = Inventory(26)
     player = Entity(0, 0, '@', libtcod.black, 'Player', blocks=True, render_order=RenderOrder.ACTOR,
                     fighter=fighter_component, inventory=inventory_component)
@@ -192,7 +192,7 @@ def main():
             item_consumed = player_turn_result.get('consumed')
             item_dropped = player_turn_result.get('item_dropped')
             targeting = player_turn_result.get('targeting')
-            targeting_cancelled = player_turn_results.get('targeting_cancelled')
+            targeting_cancelled = player_turn_result.get('targeting_cancelled')
 
             if message:
                 message_log.add_message(message)
@@ -219,7 +219,7 @@ def main():
 
                 targeting_item = targeting
 
-                message_log.add_message(targeting_item.targeting_message)
+                message_log.add_message(targeting_item.item.targeting_message)
 
             if targeting_cancelled:
                 game_state = previous_game_state

@@ -94,7 +94,7 @@ def handle_inventory_keys(key):
 
 
 def handle_mouse(mouse):
-    (x, y) = (mouse.cx, mouse.cv)
+    (x, y) = (mouse.cx, mouse.cy)
 
     if mouse.lbutton_pressed:
         return {'left_click': (x, y)}
